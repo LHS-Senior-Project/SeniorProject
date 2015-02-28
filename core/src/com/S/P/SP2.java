@@ -19,7 +19,7 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	
 	boolean up,down,left,right,zIn,zOut;
 	boolean pup,pdown,pleft,pright;
-	boolean freeMove;
+	boolean freeMove, jump;
 	
 	
 	@Override
@@ -32,7 +32,8 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		Gdx.input.setInputProcessor(this);
 		Gdx.input.setOnscreenKeyboardVisible(true);
 		thisWorld = new World(new Vector2(0.0f, -9.8f), 100, 80);
-		thisWorld.setPlayer(new Player(thisWorld, new Vector2(300f,300f)));
+		thisWorld.setPlayer(new Player(thisWorld, new Vector2(300f,1000f)));
+		thisWorld.setBlock(30, 56, Block.DIRT);
 		thisWorld.addMoveable(thisWorld.getPlayer());
 	}
 
@@ -59,6 +60,9 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		for(Moveable m : thisWorld.moveables){
 			if(m instanceof Player){
 				batch.draw(((Player) m).getTexture(), m.position.x, m.position.y);
+				batch.draw(Block.DIRT,m.position.x,m.position.y,1.0f,1.0f);
+				batch.draw(Block.DIRT,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) + 3)].position.x,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) + 3)].position.y,16.0f,16.0f);
+				batch.draw(Block.DIRT,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) - 1)].position.x,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) - 1)].position.y,16.0f,16.0f);
 			}
 		}
 		
@@ -98,6 +102,11 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		}
 		if (pright) {
 			thisWorld.getPlayer().addAccel(10.0f, 0.0f);
+		}
+		
+		if(jump){
+			thisWorld.getPlayer().addAccel(0.0f, 100f);
+			jump = false;
 		}
 		
 		for(Moveable m : thisWorld.moveables){
@@ -146,6 +155,9 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 			break;
 		case Keys.Q:
 			zOut = true;
+			break;
+		case Keys.SPACE:
+			jump = true;
 			break;
 		}
 		return false;
