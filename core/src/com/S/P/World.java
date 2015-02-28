@@ -2,6 +2,7 @@ package com.S.P;
 
 import java.util.Vector;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class World {
@@ -22,7 +23,7 @@ public class World {
 	
 	public World(Vector2 gravity, int WorldHeight, int WorldWidth){
 		setGravity(gravity);
-		blocks = new Block[WorldHeight][WorldWidth];
+		blocks = new Block[WorldHeight+2][WorldWidth];
 		generateWorld();
 		moveables = new Vector<Moveable>();
 	}
@@ -46,10 +47,18 @@ public class World {
 				if(y > 53) blocks[x][y] = new Block(new Vector2(x * 16, y * 16), Block.AIR);
 			}
 		}
+		for(int i = 0; i<blocks.length;i++){
+			blocks[i][0] = new Block(new Vector2(i * 16, 0), Block.VOID);
+			blocks[i][blocks[0].length-1] = new Block(new Vector2(i * 16, (blocks[0].length-1) * 16), Block.VOID);
+		}
 	}
 	
 	public Block[][] getBlocks(){
 		return blocks;
+	}
+	
+	public void setBlock(int x, int y, TextureRegion material){
+		blocks[x][y] = new Block(new Vector2(x*16,y*16), material);
 	}
 	
 	private void setGravity(Vector2 gravity) {
