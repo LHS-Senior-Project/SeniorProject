@@ -35,6 +35,8 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		thisWorld.setPlayer(new Player(thisWorld, new Vector2(50f,50f)));
 		thisWorld.setBlock(30, 56, Block.DIRT);
 		thisWorld.addMoveable(thisWorld.getPlayer());
+		Mob cancerSprite = new Mob(thisWorld, new Vector2(50f,50f));
+		thisWorld.addMoveable(cancerSprite);
 		thisWorld.loadFromFile("map.txt");
 	}
 
@@ -64,6 +66,9 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 				batch.draw(Block.DIRT,m.position.x,m.position.y,1.0f,1.0f);
 				batch.draw(Block.DIRT,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) + 3)].position.x,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) + 3)].position.y,16.0f,16.0f);
 				batch.draw(Block.DIRT,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) - 1)].position.x,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) - 1)].position.y,16.0f,16.0f);
+			}
+			else if(m instanceof Mob){
+				batch.draw(((Mob) m).getTexture(), m.position.x, m.position.y);
 			}
 		}
 		
@@ -119,8 +124,6 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		}
 
 		camera.update();
-		
-		
 		
 	}
 
