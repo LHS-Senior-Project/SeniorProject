@@ -25,7 +25,6 @@ public class SP2 extends ApplicationAdapter {
 		batch.draw(img, 0, 0);
 		
 		batch.end();
-//		derp.txt
 	}
 	
 	public void update(){
