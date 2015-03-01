@@ -1,5 +1,5 @@
 package com.S.P;
 
-public class Moveable {
+public class Moveable{
 
 }
