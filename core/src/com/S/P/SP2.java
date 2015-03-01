@@ -37,6 +37,7 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		thisWorld.addMoveable(thisWorld.getPlayer());
 		Mob cancerSprite = new Mob(thisWorld, new Vector2(50f,50f));
 		thisWorld.addMoveable(cancerSprite);
+		cancerSprite.setTarget(thisWorld.getPlayer());
 		thisWorld.loadFromFile("map.txt");
 	}
 
@@ -111,11 +112,14 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		}
 		
 		if(jump){
-			thisWorld.getPlayer().addAccel(0.0f, 100f);
+			thisWorld.getPlayer().addAccel(0.0f, 45f);
 			jump = false;
 		}
 		
 		for(Moveable m : thisWorld.moveables){
+			if(m instanceof Mob){
+				((Mob) m).AIUpdate();
+			}
 			m.move(Gdx.graphics.getDeltaTime());
 		}
 		
