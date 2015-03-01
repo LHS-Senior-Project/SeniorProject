@@ -1,5 +1,5 @@
 package com.S.P;
 
-public class Entity {
+public class Entity extends Moveable{
 
 }

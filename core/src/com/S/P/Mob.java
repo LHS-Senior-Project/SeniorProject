@@ -1,5 +1,5 @@
 package com.S.P;
 
-public class Mob {
+public class Mob extends Moveable {
 
 }
