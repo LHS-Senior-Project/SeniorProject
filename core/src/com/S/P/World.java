@@ -1,7 +1,11 @@
 package com.S.P;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.Vector;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -53,6 +57,57 @@ public class World {
 		}
 	}
 	
+	public void loadFromFile(String fileName){
+		try {
+//			this(Gdx.files.internal(internalPath));
+			System.out.println(Gdx.files.internal(fileName).reader());
+			BufferedReader input = new BufferedReader(Gdx.files.internal(fileName).reader());
+			Vector<String[]> rows = new Vector<String[]>();
+			while(input.ready()){
+				rows.add(input.readLine().split(","));
+			}
+			input.close();
+			
+			Collections.reverse(rows);
+			
+			blocks = new Block[rows.get(0).length][rows.size()];
+			int x = 0;
+			int y = 0;
+			for(String[] row : rows){
+				for(String block : row){
+					blocks[x][y] = new Block(new Vector2(x * 16 , y*16), getBlockFromId(Integer.parseInt(block)));
+					x++;	
+				}
+				x = 0;
+				y++;
+			}
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private TextureRegion getBlockFromId(int blockID) {
+		switch(blockID){
+		case 0:
+			return Block.VOID;
+		case 1:
+			return Block.AIR;
+		case 2:
+			return Block.DIRT;
+		case 3:
+			return Block.VOID;
+		case 4:
+			return Block.VOID;
+		case 5:
+			return Block.VOID;
+		}
+		return null;
+	}
+
 	public Block[][] getBlocks(){
 		return blocks;
 	}

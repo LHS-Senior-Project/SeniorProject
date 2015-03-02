@@ -32,9 +32,10 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		Gdx.input.setInputProcessor(this);
 		Gdx.input.setOnscreenKeyboardVisible(true);
 		thisWorld = new World(new Vector2(0.0f, -9.8f), 100, 80);
-		thisWorld.setPlayer(new Player(thisWorld, new Vector2(300f,1000f)));
+		thisWorld.setPlayer(new Player(thisWorld, new Vector2(50f,50f)));
 		thisWorld.setBlock(30, 56, Block.DIRT);
 		thisWorld.addMoveable(thisWorld.getPlayer());
+		thisWorld.loadFromFile("map.txt");
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public void render () {
 		update();
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
