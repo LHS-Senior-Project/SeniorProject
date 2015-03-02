@@ -22,7 +22,6 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	boolean pup,pdown,pleft,pright;
 	boolean freeMove, jump;
 	
-	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -139,6 +138,7 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		thisWorld.removeMoveables();
 	}
 
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		switch (keycode) {
@@ -280,4 +280,5 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		}
 		return false;
 	}
+	
 }
