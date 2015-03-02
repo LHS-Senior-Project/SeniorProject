@@ -21,4 +21,9 @@ public class Player extends Moveable {
 	public TextureRegion getTexture(){
 		return player;
 	}
+
+	@Override
+	public void move(float deltaTime){
+		
+	}
 }

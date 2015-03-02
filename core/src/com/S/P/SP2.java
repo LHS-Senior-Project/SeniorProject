@@ -103,12 +103,15 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		for(Moveable m : thisWorld.moveables){
 			m.move(Gdx.graphics.getDeltaTime());
 		}
-		camera.update();
 		
 		if(!freeMove){
 			camera.position.set(thisWorld.player.position, 0f);
-			camera.update();
 		}
+
+		camera.update();
+		
+		
+		
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.S.P;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Block {
@@ -17,11 +18,15 @@ public class Block {
 	public Block(){
 		
 	}
-	
+		
 	public Block(Vector2 position, TextureRegion dirt2){
 		this.blockTexture = dirt2;
 		this.position = position;
 		this.itemProduced = null;
+	}
+	
+	public Rectangle getBounds(){
+		return new Rectangle(this.position.x, this.position.y, 16, 16);
 	}
 	
 }
