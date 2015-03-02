@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.collision.Ray;
 
 public class SP2 extends ApplicationAdapter implements InputProcessor {
 	SpriteBatch batch;
@@ -228,8 +229,19 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
-		System.out.println("X: " + screenX + "\tY: " + screenY + "\tpointer: " + pointer + "\tButton: " + button);
-		thisWorld.addMoveable(new Projectile(thisWorld.getPlayer().position,new Vector2(screenX,screenY)));
+		System.out.println(pointer);
+		
+		Vector2 block = new Vector2((int)(camera.getPickRay(screenX, screenY).origin.x / 16),(int)(camera.getPickRay(screenX, screenY).origin.y / 16));
+//		Gdx.graphics.setTitle("X: " + screenX + "    Y: " + screenY + "         pointer: " + pointer + "      Button: " + button);
+//		System.out.println(  + " " + (int)(camera.getPickRay(screenX, screenY).origin.y / 16));
+
+		if(button == 0){
+			thisWorld.breakBlock(block);
+		}else if(button == 1){
+			thisWorld.placeBlock(block);
+		}else if(button == 2){
+			thisWorld.addMoveable(new Projectile(thisWorld.getPlayer().position,new Vector2(screenX,screenY)));
+		}
 		return false;
 	}
 
@@ -248,6 +260,7 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		// TODO Auto-generated method stub
+		Gdx.graphics.setTitle("camX: " + this.camera.position.x + "      camY: " + this.camera.position.y);
 		return false;
 	}
 

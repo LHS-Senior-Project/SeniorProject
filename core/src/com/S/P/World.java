@@ -124,5 +124,13 @@ public class World {
 		this.gravity = gravity;
 	}
 
+	public void breakBlock(Vector2 block) {
+		this.blocks[(int) block.x][(int) block.y] = new Block(new Vector2(block.x * 16, block.y * 16), Block.AIR);		
+	}
+
+	public void placeBlock(Vector2 block) {
+		this.blocks[(int) block.x][(int) block.y] = new Block(new Vector2(block.x * 16, block.y * 16), Block.DIRT);
+	}
+
 	
 }
