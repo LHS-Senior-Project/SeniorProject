@@ -50,12 +50,12 @@ public class Player extends Moveable {
 					position.set(position.x, world.blocks[(int) (this.position.x / 16) + 1][(int) ((this.position.y / 16) + 3)].position.y - 48);
 				}
 			}
-			if (world.blocks[(int) ((this.position.x / 16) + 2)][(int) ((this.position.y / 16) + 3)].isSolid()) {
-				if (this.position.y + this.player.getRegionHeight() >= world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16) + 3)].position.y) {
-					velocity.set(velocity.x, 0);
-					position.set(position.x, world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16) + 3)].position.y - 48);
-				}
-			}
+//			if (world.blocks[(int) ((this.position.x / 16) + 2)][(int) ((this.position.y / 16) + 3)].isSolid()) {
+//				if (this.position.y + this.player.getRegionHeight() >= world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16) + 3)].position.y) {
+//					velocity.set(velocity.x, 0);
+//					position.set(position.x, world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16) + 3)].position.y - 48);
+//				}
+//			}
 			// check blocks above
 		} else {
 			if (world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].isSolid()) {
@@ -76,15 +76,15 @@ public class Player extends Moveable {
 					position.set(position.x, world.blocks[(int) (this.position.x / 16) + 1][(int) ((this.position.y / 16))].position.y + 16);
 				}
 			}
-			if (world.blocks[(int) ((this.position.x / 16) + 2)][(int) ((this.position.y / 16))].isSolid()) {
-				// if (this.position.y <= world.blocks[(int) (this.position.x /
-				// 16) + 2][(int) ((this.position.y / 16) - 1)].position.y + 16)
-				// {
-				if (this.position.y - 48 <= world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16))].position.y) {
-					velocity.set(velocity.x, 0);
-					position.set(position.x, world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16))].position.y + 16);
-				}
-			}
+//			if (world.blocks[(int) ((this.position.x / 16) + 2)][(int) ((this.position.y / 16))].isSolid()) {
+//				// if (this.position.y <= world.blocks[(int) (this.position.x /
+//				// 16) + 2][(int) ((this.position.y / 16) - 1)].position.y + 16)
+//				// {
+//				if (this.position.y - 48 <= world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16))].position.y) {
+//					velocity.set(velocity.x, 0);
+//					position.set(position.x, world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16))].position.y + 16);
+//				}
+//			}
 			// check blocks below
 		}
 		if (right) {

@@ -116,6 +116,10 @@ public class World {
 		blocks[x][y] = new Block(new Vector2(x*16,y*16), material);
 	}
 	
+	public void removeMoveable(Moveable moveable){
+		this.moveables.remove(moveable);
+	}
+	
 	private void setGravity(Vector2 gravity) {
 		this.gravity = gravity;
 	}
