@@ -78,7 +78,7 @@ public class World {
 			int y = 0;
 			for(String[] row : rows){
 				for(String block : row){
-					blocks[x][y] = new Block(new Vector2(x * 16 , y*16), getBlockFromId(Integer.parseInt(block)));
+					blocks[x][y] = new Block(new Vector2(x * 16 , y*16), Block.getBlockFromId(Integer.parseInt(block)));
 					x++;	
 				}
 				x = 0;
@@ -93,23 +93,6 @@ public class World {
 		
 	}
 	
-	private TextureRegion getBlockFromId(int blockID) {
-		switch(blockID){
-		case 0:
-			return Block.VOID;
-		case 1:
-			return Block.AIR;
-		case 2:
-			return Block.DIRT;
-		case 3:
-			return Block.VOID;
-		case 4:
-			return Block.VOID;
-		case 5:
-			return Block.VOID;
-		}
-		return null;
-	}
 
 	public Block[][] getBlocks(){
 		return blocks;
@@ -131,8 +114,12 @@ public class World {
 		this.blocks[(int) block.x][(int) block.y] = new Block(new Vector2(block.x * 16, block.y * 16), Block.AIR);		
 	}
 
-	public void placeBlock(Vector2 block) {
-		this.blocks[(int) block.x][(int) block.y] = new Block(new Vector2(block.x * 16, block.y * 16), Block.BOOM);
+	public void placeBlock(Vector2 block, int blockID) {
+		this.blocks[(int) block.x][(int) block.y] = new Block(new Vector2(block.x * 16, block.y * 16), Block.getBlockFromId(blockID));
+	}
+	
+	public void replaceBlock(Vector2 block, int blockID) {
+		this.blocks[(int) block.x][(int) block.y] = new Block(new Vector2(block.x * 16, block.y * 16), Block.getBlockFromId(blockID));
 	}
 	
 	public void removeMoveables(){

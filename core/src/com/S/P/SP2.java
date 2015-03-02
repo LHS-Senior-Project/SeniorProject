@@ -26,7 +26,6 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
 		camera = new OrthographicCamera(700f, 700f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
 		camera.position.set(250f, 750f, 0f);
 		camera.update();
@@ -242,7 +241,7 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		if(button == 0){
 			thisWorld.breakBlock(block);
 		}else if(button == 1){
-			thisWorld.placeBlock(block);
+			thisWorld.placeBlock(block, 2);
 		}else if(button == 2){
 			thisWorld.addMoveable(new Projectile(new Vector2(thisWorld.getPlayer().position.x + 32,thisWorld.getPlayer().position.y + 20),new Vector2(block.x*16,block.y * 16),thisWorld));
 		}

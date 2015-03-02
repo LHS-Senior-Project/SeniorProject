@@ -59,8 +59,9 @@ public class Projectile extends Entity{
 		position.add(velocity);
 		up = (velocity.y >= 0);
 		right = (velocity.x >= 0);
+		if(((int)(this.position.x + 8)/ 16 ) == ((int)this.staticTarget.x / 16 ) && (int)(this.position.y + 8)/16 == (int)this.staticTarget.y/16) destroy();
 		if (up) {
-			System.out.println("X: " + ((int)this.position.x / 16 )+ "Y: " + (int)this.position.y/16);
+			System.out.println("X: " + ((int)(this.position.x + 8)/ 16 )+ "Y: " + (int)(this.position.y + 8)/16 + "     " +  "X: " + ((int)this.staticTarget.x / 16 )+ "Y: " + (int)this.staticTarget.y/16);
 			if (thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].isSolid()) {
 				if (this.position.y + 16 >= thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.y) {
 					velocity.set(velocity.x, 0);
@@ -106,7 +107,7 @@ public class Projectile extends Entity{
 	public void destroy(){
 		Vector2 block = this.position.cpy();
 		thisWorld.breakBlock(new Vector2((int)block.x/16,(int)(block.y/16)+1));
-		thisWorld.placeBlock(new Vector2((int)block.x/16,(int)(block.y/16)+1));
+		thisWorld.placeBlock(new Vector2((int)block.x/16,(int)(block.y/16)+1), 3);
 		thisWorld.removeMoveable(this);
 	}
 }

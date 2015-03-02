@@ -32,6 +32,24 @@ public class Block {
 //		this.solid = !blockTexture.equals(AIR);
 	}
 	
+	static TextureRegion getBlockFromId(int blockID) {
+		switch(blockID){
+		case 0:
+			return Block.VOID;
+		case 1:
+			return Block.AIR;
+		case 2:
+			return Block.DIRT;
+		case 3:
+			return Block.BOOM;
+		case 4:
+			return Block.VOID;
+		case 5:
+			return Block.VOID;
+		}
+		return null;
+	}
+	
 	public Rectangle getBounds(){
 		return new Rectangle(this.position.x+8, this.position.y+8, 16, 16);
 	}
