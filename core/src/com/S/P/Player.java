@@ -23,6 +23,7 @@ public class Player extends Moveable {
 		return player;
 	}
 
+/*
 	@Override
 	public void move(float deltaTime) {
 		boolean up, right;
@@ -151,7 +152,7 @@ public class Player extends Moveable {
 		velocity.setZero();
 		acceleration.setZero();
 	}
-
+*/
 	public Rectangle getBounds() {
 		return new Rectangle(this.position.x + 16, this.position.y + 24, 32, 48);
 	}

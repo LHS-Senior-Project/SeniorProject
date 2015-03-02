@@ -34,8 +34,9 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		thisWorld.setPlayer(new Player(thisWorld, new Vector2(50f,50f)));
 		thisWorld.setBlock(30, 56, Block.DIRT);
 		thisWorld.addMoveable(thisWorld.getPlayer());
+		thisWorld.getPlayer().setCollideable(new Vector2(32,48));
 		Mob cancerSprite = new Mob(thisWorld, new Vector2(50f,50f));
-		thisWorld.addMoveable(cancerSprite);
+//		thisWorld.addMoveable(cancerSprite);
 		cancerSprite.setTarget(thisWorld.getPlayer());
 		thisWorld.loadFromFile("map.txt");
 	}
