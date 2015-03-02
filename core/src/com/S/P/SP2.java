@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class SP2 extends ApplicationAdapter implements InputProcessor {
 	SpriteBatch batch;
@@ -17,6 +18,9 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	World thisWorld;
 	
 	boolean up,down,left,right,zIn,zOut;
+	boolean pup,pdown,pleft,pright;
+	boolean freeMove;
+	
 	
 	@Override
 	public void create () {
@@ -28,6 +32,8 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		Gdx.input.setInputProcessor(this);
 		Gdx.input.setOnscreenKeyboardVisible(true);
 		thisWorld = new World(new Vector2(0.0f, -9.8f), 100, 80);
+		thisWorld.setPlayer(new Player(thisWorld, new Vector2(300f,300f)));
+		thisWorld.addMoveable(thisWorld.getPlayer());
 	}
 
 	@Override
@@ -47,6 +53,12 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		for(Block[] blocks : thisWorld.blocks){
 			for(Block b : blocks){
 				batch.draw(b.blockTexture, b.position.x, b.position.y);
+			}
+		}
+		
+		for(Moveable m : thisWorld.moveables){
+			if(m instanceof Player){
+				batch.draw(((Player) m).getTexture(), m.position.x, m.position.y);
 			}
 		}
 		
@@ -74,7 +86,29 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 			camera.viewportHeight = camera.viewportHeight + 16f;
 			camera.viewportWidth = camera.viewportWidth + 16f;
 		}
+		
+		if (pup) {
+			thisWorld.getPlayer().addAccel(0.0f, 10.0f);
+		}
+		if (pdown) {
+			thisWorld.getPlayer().addAccel(0.0f, -10.0f);
+		}
+		if (pleft) {
+			thisWorld.getPlayer().addAccel(-10.0f, 0.0f);
+		}
+		if (pright) {
+			thisWorld.getPlayer().addAccel(10.0f, 0.0f);
+		}
+		
+		for(Moveable m : thisWorld.moveables){
+			m.move(Gdx.graphics.getDeltaTime());
+		}
 		camera.update();
+		
+		if(!freeMove){
+			camera.position.set(thisWorld.player.position, 0f);
+			camera.update();
+		}
 	}
 
 	@Override
@@ -83,14 +117,26 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		case Keys.W:
 			up = true;
 			break;
+		case Keys.UP:
+			pup = true;
+			break;
 		case Keys.A:
 			left = true;
+			break;
+		case Keys.LEFT:
+			pleft = true;
 			break;
 		case Keys.S:
 			down = true;
 			break;
+		case Keys.DOWN:
+			pdown = true;
+			break;
 		case Keys.D:
 			right = true;
+			break;
+		case Keys.RIGHT:
+			pright = true;
 			break;
 		case Keys.E:
 			zIn = true;
@@ -105,17 +151,32 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		switch (keycode) {
+		case Keys.TAB:
+			freeMove = !freeMove;
+			break;
 		case Keys.W:
 			up = false;
+			break;
+		case Keys.UP:
+			pup = false;
 			break;
 		case Keys.A:
 			left = false;
 			break;
+		case Keys.LEFT:
+			pleft = false;
+			break;
 		case Keys.S:
 			down = false;
 			break;
+		case Keys.DOWN:
+			pdown = false;
+			break;
 		case Keys.D:
 			right = false;
+			break;
+		case Keys.RIGHT:
+			pright = false;
 			break;
 		case Keys.E:
 			zIn = false;
