@@ -9,7 +9,6 @@ public class Mob extends Moveable {
 	private static final Texture ss = new Texture("notPlayer.png");
 	TextureRegion mob = TextureRegion.split(ss, 32, 48)[0][0];
 	public Vector2 staticTarget;
-	public Vector2 lastPosition;
 	public Moveable moveableTarget;
 	public boolean collideLeft;
 	public boolean collideRight;
@@ -45,7 +44,6 @@ public class Mob extends Moveable {
 		boolean up, right;
 		right = (this.position.x <= getTarget().x);
 		up = (this.position.y <= getTarget().y);
-		//System.out.println("last position: " + this.lastPosition + "\tthis position: " + this.position);
 		if (!collideRight&&!collideLeft||collideUp) {
 			if (up) {
 				this.addAccel(0.0f, 10.0f);
@@ -74,7 +72,6 @@ public class Mob extends Moveable {
 	public Mob(World world, Vector2 Position) {
 		super(world);
 		this.position = Position;
-		this.lastPosition = this.position;
 	}
 
 	public TextureRegion getTexture() {

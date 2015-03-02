@@ -71,6 +71,9 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 			else if(m instanceof Mob){
 				batch.draw(((Mob) m).getTexture(), m.position.x, m.position.y);
 			}
+			else if(m instanceof Projectile){
+				batch.draw(((Projectile) m).getTexture(), m.position.x, m.position.y, m.position.x + 8, m.position.y + 8, 16, 16, 0, 0, ((Projectile) m).getAngle());
+			}
 		}
 		
 		batch.end();
@@ -217,9 +220,15 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		return false;
 	}
 
+	//screenX = x location of mouse
+	//screenY = y location of mouse
+	//pointer = ??? (maybe if mulptiple mice)
+	//button  = what was presses (0 = left, 1 = right, 2 = middle) 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
+		System.out.println("X: " + screenX + "\tY: " + screenY + "\tpointer: " + pointer + "\tButton: " + button);
+		thisWorld.addMoveable(new Projectile(thisWorld.getPlayer().position,new Vector2(screenX,screenY)));
 		return false;
 	}
 
@@ -244,6 +253,14 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
+		if(amount == -1){
+			camera.viewportHeight = camera.viewportHeight - 64f;
+			camera.viewportWidth = camera.viewportWidth - 64f;
+		}
+		else{
+			camera.viewportHeight = camera.viewportHeight + 64f;
+			camera.viewportWidth = camera.viewportWidth + 64f;
+		}
 		return false;
 	}
 }
