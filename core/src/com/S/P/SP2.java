@@ -61,9 +61,10 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		for(Moveable m : thisWorld.moveables){
 			if(m instanceof Player){
 				batch.draw(((Player) m).getTexture(), m.position.x, m.position.y);
-				batch.draw(Block.DIRT,m.position.x,m.position.y,1.0f,1.0f);
-				batch.draw(Block.DIRT,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) + 3)].position.x,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) + 3)].position.y,16.0f,16.0f);
-				batch.draw(Block.DIRT,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) - 1)].position.x,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) - 1)].position.y,16.0f,16.0f);
+//				batch.draw(Block.DIRT,m.position.x,m.position.y,1.0f,1.0f);
+//				batch.draw(Block.DIRT,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) + 3)].position.x,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) + 3)].position.y,16.0f,16.0f);
+//				batch.draw(Block.DIRT,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) - 1)].position.x,thisWorld.blocks[(int) (m.position.x / 16)][(int) ((m.position.y / 16) - 1)].position.y,16.0f,16.0f);
+//				
 			}
 		}
 		
