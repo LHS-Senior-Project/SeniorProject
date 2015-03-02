@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Projectile extends Entity{
 	private static final Texture ss = new Texture("Magic Missile.png");
 	TextureRegion projectile = TextureRegion.split(ss, 16, 16)[0][0];
+	public World thisWorld;
 	public Vector2 startPosition;
 	public Vector2 staticTarget;
 	public float damage;
@@ -20,9 +21,11 @@ public class Projectile extends Entity{
 	public Projectile(){
 	}
 	
-	public Projectile(Vector2 Position, Vector2 target) {
-		this.position = Position;
+	public Projectile(Vector2 Position, Vector2 target, World world) {
+		this.position = Position.cpy();
 		this.staticTarget = target;
+		this.speed = 0.1f;
+		this.thisWorld = world;
 	}
 	
 	/**
@@ -38,7 +41,7 @@ public class Projectile extends Entity{
 	}
 	
 	public void AIUpdate(){
-		
+		this.addAccel((this.staticTarget.x - this.position.x)*speed, (this.staticTarget.y - this.position.y)*speed);
 	}
 	
 	public float getAngle(){
@@ -56,36 +59,41 @@ public class Projectile extends Entity{
 		position.add(velocity);
 		up = (velocity.y >= 0);
 		right = (velocity.x >= 0);
-//		if (up) {
-//			if (world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16) + 3)].isSolid()) {
-//				if (this.position.y + 16 >= world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16) + 3)].position.y) {
-//					velocity.set(velocity.x, 0);
-//					position.set(position.x, world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16) + 3)].position.y - 16);
-//				}
-//			}
-//		} else {
-//			if (world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].isSolid()) {
-//				if (this.position.y - 16 <= world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.y) {
-//					velocity.set(velocity.x, 0);
-//					position.set(position.x, world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.y + 16);
-//				}
-//			}
-//		}
-//		if (right) {
-//			if (world.blocks[(int) (this.position.x / 16 + 2)][(int) ((this.position.y / 16))].isSolid()) {
-//				if (this.position.x + 16 >= world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16))].position.x) {
-//					velocity.set(0, velocity.y);
-//					position.set(world.blocks[(int) (this.position.x / 16) + 2][(int) ((this.position.y / 16))].position.x - 16, position.y);
-//				}
-//			}
-//		} else {
-//			if (world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].isSolid()) {
-//				if (this.position.x - 16 <= world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.x) {
-//					velocity.set(0, velocity.y);
-//					position.set(world.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.x + 16, position.y);
-//				}
-//			}
-//		}
+		if (up) {
+			System.out.println("X: " + ((int)this.position.x / 16 )+ "Y: " + (int)this.position.y/16);
+			if (thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].isSolid()) {
+				if (this.position.y + 16 >= thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.y) {
+					velocity.set(velocity.x, 0);
+					position.set(position.x, thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.y - 16);
+					this.destroy();
+				}
+			}
+		} else {
+			if (thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].isSolid()) {
+				if (this.position.y - 16 <= thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.y) {
+					velocity.set(velocity.x, 0);
+					position.set(position.x, thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.y + 16);
+					this.destroy();
+				}
+			}
+		}
+		if (right) {
+			if (thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].isSolid()) {
+				if (this.position.x + 16 >= thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.x) {
+					velocity.set(0, velocity.y);
+					position.set(thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.x - 16, position.y);
+					this.destroy();
+				}
+			}
+		} else {
+			if (thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].isSolid()) {
+				if (this.position.x - 16 <= thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.x) {
+					velocity.set(0, velocity.y);
+					position.set(thisWorld.blocks[(int) (this.position.x / 16)][(int) ((this.position.y / 16))].position.x + 16, position.y);
+					this.destroy();
+				}
+			}
+		}
 
 		velocity.setZero();
 		acceleration.setZero();
@@ -93,5 +101,12 @@ public class Projectile extends Entity{
 	
 	public TextureRegion getTexture(){
 		return this.projectile;
+	}
+	
+	public void destroy(){
+		Vector2 block = this.position.cpy();
+		thisWorld.breakBlock(new Vector2((int)block.x/16,(int)(block.y/16)+1));
+		thisWorld.placeBlock(new Vector2((int)block.x/16,(int)(block.y/16)+1));
+		thisWorld.removeMoveable(this);
 	}
 }

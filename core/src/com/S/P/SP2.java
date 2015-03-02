@@ -74,7 +74,8 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 				batch.draw(((Mob) m).getTexture(), m.position.x, m.position.y);
 			}
 			else if(m instanceof Projectile){
-				batch.draw(((Projectile) m).getTexture(), m.position.x, m.position.y, m.position.x + 8, m.position.y + 8, 16, 16, 0, 0, ((Projectile) m).getAngle());
+				//batch.draw(((Projectile) m).getTexture(), m.position.x, m.position.y, m.position.x + 8, m.position.y + 8, 16, 16, 1, 1, ((Projectile) m).getAngle());
+				batch.draw(((Projectile) m).getTexture(), m.position.x, m.position.y);
 			}
 		}
 		
@@ -125,6 +126,9 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 			if(m instanceof Mob){
 				((Mob) m).AIUpdate();
 			}
+			if(m instanceof Projectile){
+				((Projectile) m).AIUpdate();
+			}
 			m.move(Gdx.graphics.getDeltaTime());
 		}
 		
@@ -133,7 +137,7 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		}
 
 		camera.update();
-		
+		thisWorld.removeMoveables();
 	}
 
 	@Override
@@ -240,7 +244,7 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		}else if(button == 1){
 			thisWorld.placeBlock(block);
 		}else if(button == 2){
-			thisWorld.addMoveable(new Projectile(thisWorld.getPlayer().position,new Vector2(screenX,screenY)));
+			thisWorld.addMoveable(new Projectile(new Vector2(thisWorld.getPlayer().position.x + 32,thisWorld.getPlayer().position.y + 20),new Vector2(block.x*16,block.y * 16),thisWorld));
 		}
 		return false;
 	}

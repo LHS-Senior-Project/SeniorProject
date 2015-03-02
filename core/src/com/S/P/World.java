@@ -13,6 +13,7 @@ public class World {
 
 	Vector2 gravity;
 	Vector<Moveable> moveables;
+	Vector<Moveable> moveablesToRemove;
 	Block[][] blocks;
 	Player player;
 	
@@ -23,6 +24,7 @@ public class World {
 		blocks = new Block[50][50];
 		generateWorld();
 		moveables = new Vector<Moveable>();
+		moveablesToRemove = new Vector<Moveable>();
 	}
 	
 	public World(Vector2 gravity, int WorldHeight, int WorldWidth){
@@ -30,6 +32,7 @@ public class World {
 		blocks = new Block[WorldHeight+2][WorldWidth];
 		generateWorld();
 		moveables = new Vector<Moveable>();
+		moveablesToRemove = new Vector<Moveable>();
 	}
 
 	public void addMoveable(Moveable m){
@@ -117,7 +120,7 @@ public class World {
 	}
 	
 	public void removeMoveable(Moveable moveable){
-		this.moveables.remove(moveable);
+		this.moveablesToRemove.add(moveable);
 	}
 	
 	private void setGravity(Vector2 gravity) {
@@ -129,7 +132,14 @@ public class World {
 	}
 
 	public void placeBlock(Vector2 block) {
-		this.blocks[(int) block.x][(int) block.y] = new Block(new Vector2(block.x * 16, block.y * 16), Block.DIRT);
+		this.blocks[(int) block.x][(int) block.y] = new Block(new Vector2(block.x * 16, block.y * 16), Block.BOOM);
+	}
+	
+	public void removeMoveables(){
+		for(Moveable m: moveablesToRemove){
+			this.moveables.remove(m);
+		}
+		moveablesToRemove.clear();
 	}
 
 	
