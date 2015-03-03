@@ -12,11 +12,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.Ray;
 
-public class SP2 extends ApplicationAdapter implements InputProcessor {
+public class SP2 extends ApplicationAdapter implements InputProcessor{
 	SpriteBatch batch;
 	Texture img;
 	OrthographicCamera camera;
 	World thisWorld;
+	PlayerInput playerInput;
 	
 	boolean up,down,left,right,zIn,zOut;
 	boolean pup,pdown,pleft,pright;
@@ -28,7 +29,6 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 		camera = new OrthographicCamera(700f, 700f * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
 		camera.position.set(250f, 750f, 0f);
 		camera.update();
-		Gdx.input.setInputProcessor(this);
 		Gdx.input.setOnscreenKeyboardVisible(true);
 		thisWorld = new World(new Vector2(0.0f, -9.8f), 100, 80);
 		thisWorld.setPlayer(new Player(thisWorld, new Vector2(50f,50f)));
@@ -39,6 +39,10 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 //		thisWorld.addMoveable(cancerSprite);
 		cancerSprite.setTarget(thisWorld.getPlayer());
 		thisWorld.loadFromFile("map.txt");
+		
+		
+		Gdx.input.setInputProcessor(this);
+		
 	}
 
 	@Override
@@ -110,14 +114,14 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 			thisWorld.getPlayer().addAccel(0.0f, -10.0f);
 		}
 		if (pleft) {
-			thisWorld.getPlayer().addAccel(-10.0f, 0.0f);
+			thisWorld.getPlayer().addAccel(-30.0f, 0.0f);
 		}
 		if (pright) {
-			thisWorld.getPlayer().addAccel(10.0f, 0.0f);
+			thisWorld.getPlayer().addAccel(30.0f, 0.0f);
 		}
 		
 		if(jump){
-			thisWorld.getPlayer().addAccel(0.0f, 45f);
+			thisWorld.getPlayer().addAccel(0.0f, 350f);
 			jump = false;
 		}
 		
@@ -234,17 +238,20 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
 		System.out.println(pointer);
-		
+		camera.update();
 		Vector2 block = new Vector2((int)(camera.getPickRay(screenX, screenY).origin.x / 16),(int)(camera.getPickRay(screenX, screenY).origin.y / 16));
+		System.out.println(block);
 //		Gdx.graphics.setTitle("X: " + screenX + "    Y: " + screenY + "         pointer: " + pointer + "      Button: " + button);
-//		System.out.println(  + " " + (int)(camera.getPickRay(screenX, screenY).origin.y / 16));
-
+//		System.out.println(  " " + (int)(camera.getPickRay(screenX, screenY).origin.y / 16));
+		
 		if(button == 0){
 			thisWorld.breakBlock(block);
 		}else if(button == 1){
 			thisWorld.placeBlock(block, 2);
 		}else if(button == 2){
-			thisWorld.addMoveable(new Projectile(new Vector2(thisWorld.getPlayer().position.x + 32,thisWorld.getPlayer().position.y + 20),new Vector2(block.x*16,block.y * 16),thisWorld));
+			Moveable project = new Projectile(new Vector2(thisWorld.getPlayer().position.x + 32,thisWorld.getPlayer().position.y + 20),new Vector2(block.x*16,block.y * 16),thisWorld);
+			project.setCollideable(new Vector2(16,16));
+			thisWorld.addMoveable(project);
 		}
 		return false;
 	}
@@ -280,6 +287,7 @@ public class SP2 extends ApplicationAdapter implements InputProcessor {
 			camera.viewportWidth = camera.viewportWidth + 64f;
 		}
 		return false;
-	}
+	}	
+	
 	
 }

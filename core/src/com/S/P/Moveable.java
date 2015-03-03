@@ -40,9 +40,12 @@ public class Moveable {
 	}
 
 	public void move(float deltaTime) {
-		acceleration.add(new Vector2((acceleration.x * -.5f), (acceleration.y * -.5f)));
+		
 		acceleration.add(world.gravity);
+		
 		velocity.add(acceleration);
+		
+		velocity.add(new Vector2((acceleration.x -(.1f * velocity.x) ),(acceleration.y * -.85f * deltaTime)));
 		collide();
 		position.add(new Vector2(velocity.x * deltaTime, velocity.y * deltaTime));
 		acceleration.setZero();
@@ -84,11 +87,13 @@ public class Moveable {
 				yIndex = (int) (this.position.y / 16);
 				System.out.println(xIndex + " " + yIndex);
 				if (world.blocks[xIndex][yIndex].isSolid()) {
-					if (this.position.y - this.size.y >= world.blocks[xIndex][yIndex].position.y) {
+					if (this.position.y >= world.blocks[xIndex][yIndex].position.y) {
 						velocity.set(velocity.x, 0);
 						acceleration.set(acceleration.x, 0);
 						position.set(position.x, world.blocks[xIndex][yIndex].position.y + 16);
+						
 					}
+//					System.out.println("shit happened!!!");
 				}
 			}
 

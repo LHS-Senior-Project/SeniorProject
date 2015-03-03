@@ -10,6 +10,7 @@ public class PlayerInput implements InputProcessor {
 
 	World thisWorld;
 	Camera camera;
+	SP2 sp2;
 	
 	boolean up,down,left,right,zIn,zOut;
 	boolean pup,pdown,pleft,pright;
@@ -20,6 +21,12 @@ public class PlayerInput implements InputProcessor {
 		thisWorld = world;
 	}
 	
+	public PlayerInput(SP2 sp2) {
+		this.sp2 = sp2;
+		this.thisWorld = sp2.thisWorld;
+		this.camera = sp2.camera;
+	}
+
 	@Override
 	public boolean keyDown(int keycode) {
 		switch (keycode) {
@@ -114,17 +121,20 @@ public class PlayerInput implements InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
 		System.out.println(pointer);
-		
+		camera.update();
 		Vector2 block = new Vector2((int)(camera.getPickRay(screenX, screenY).origin.x / 16),(int)(camera.getPickRay(screenX, screenY).origin.y / 16));
+		System.out.println(block);
 //		Gdx.graphics.setTitle("X: " + screenX + "    Y: " + screenY + "         pointer: " + pointer + "      Button: " + button);
-//		System.out.println(  + " " + (int)(camera.getPickRay(screenX, screenY).origin.y / 16));
-
+//		System.out.println(  " " + (int)(camera.getPickRay(screenX, screenY).origin.y / 16));
+		
 		if(button == 0){
 			thisWorld.breakBlock(block);
 		}else if(button == 1){
 			thisWorld.placeBlock(block, 2);
 		}else if(button == 2){
-			thisWorld.addMoveable(new Projectile(new Vector2(thisWorld.getPlayer().position.x + 32,thisWorld.getPlayer().position.y + 20),new Vector2(block.x*16,block.y * 16),thisWorld));
+			Moveable project = new Projectile(new Vector2(thisWorld.getPlayer().position.x + 32,thisWorld.getPlayer().position.y + 20),new Vector2(block.x*16,block.y * 16),thisWorld);
+			project.setCollideable(new Vector2(16,16));
+			thisWorld.addMoveable(project);
 		}
 		return false;
 	}
