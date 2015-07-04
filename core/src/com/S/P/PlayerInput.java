@@ -8,19 +8,19 @@ import com.badlogic.gdx.math.Vector2;
 
 public class PlayerInput implements InputProcessor {
 
-	World thisWorld;
-	Camera camera;
-	SP2 sp2;
-	
-	boolean up,down,left,right,zIn,zOut;
-	boolean pup,pdown,pleft,pright;
-	boolean freeMove, jump;
-	
-	PlayerInput(World world, Camera Camera){
+	World	thisWorld;
+	Camera	camera;
+	SP2		sp2;
+
+	boolean	up, down, left, right, zIn, zOut;
+	boolean	pup, pdown, pleft, pright;
+	boolean	freeMove, jump;
+
+	PlayerInput(World world, Camera Camera) {
 		this.camera = Camera;
 		thisWorld = world;
 	}
-	
+
 	public PlayerInput(SP2 sp2) {
 		this.sp2 = sp2;
 		this.thisWorld = sp2.thisWorld;
@@ -31,10 +31,10 @@ public class PlayerInput implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		switch (keycode) {
 		case Keys.W:
-			up = true;
+			pup = true;
 			break;
 		case Keys.UP:
-			pup = true;
+			up = true;
 			break;
 		case Keys.A:
 			left = true;
@@ -43,16 +43,16 @@ public class PlayerInput implements InputProcessor {
 			pleft = true;
 			break;
 		case Keys.S:
-			down = true;
-			break;
-		case Keys.DOWN:
 			pdown = true;
 			break;
+		case Keys.DOWN:
+			down = true;
+			break;
 		case Keys.D:
-			right = true;
+			pright = true;
 			break;
 		case Keys.RIGHT:
-			pright = true;
+			right = true;
 			break;
 		case Keys.E:
 			zIn = true;
@@ -113,27 +113,29 @@ public class PlayerInput implements InputProcessor {
 		return false;
 	}
 
-	//screenX = x location of mouse
-	//screenY = y location of mouse
-	//pointer = ??? (maybe if mulptiple mice)
-	//button  = what was presses (0 = left, 1 = right, 2 = middle) 
+	// screenX = x location of mouse
+	// screenY = y location of mouse
+	// pointer = ??? (maybe if mulptiple mice)
+	// button = what was presses (0 = left, 1 = right, 2 = middle)
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
 		System.out.println(pointer);
 		camera.update();
-		Vector2 block = new Vector2((int)(camera.getPickRay(screenX, screenY).origin.x / 16),(int)(camera.getPickRay(screenX, screenY).origin.y / 16));
+		Vector2 block = new Vector2((int) (camera.getPickRay(screenX, screenY).origin.x / 16), (int) (camera.getPickRay(screenX, screenY).origin.y / 16));
 		System.out.println(block);
-//		Gdx.graphics.setTitle("X: " + screenX + "    Y: " + screenY + "         pointer: " + pointer + "      Button: " + button);
-//		System.out.println(  " " + (int)(camera.getPickRay(screenX, screenY).origin.y / 16));
-		
-		if(button == 0){
+		// Gdx.graphics.setTitle("X: " + screenX + "    Y: " + screenY +
+		// "         pointer: " + pointer + "      Button: " + button);
+		// System.out.println( " " + (int)(camera.getPickRay(screenX,
+		// screenY).origin.y / 16));
+
+		if (button == 0) {
 			thisWorld.breakBlock(block);
-		}else if(button == 1){
+		} else if (button == 1) {
 			thisWorld.placeBlock(block, 2);
-		}else if(button == 2){
-			Moveable project = new Projectile(new Vector2(thisWorld.getPlayer().position.x + 32,thisWorld.getPlayer().position.y + 20),new Vector2(block.x*16,block.y * 16),thisWorld);
-			project.setCollideable(new Vector2(16,16));
+		} else if (button == 2) {
+			Moveable project = new Projectile(new Vector2(thisWorld.getPlayer().position.x + 32, thisWorld.getPlayer().position.y + 20), new Vector2(block.x * 16, block.y * 16), thisWorld);
+			project.setCollideable(new Vector2(16, 16));
 			thisWorld.addMoveable(project);
 		}
 		return false;
@@ -161,15 +163,14 @@ public class PlayerInput implements InputProcessor {
 	@Override
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
-		if(amount == -1){
+		if (amount == -1) {
 			camera.viewportHeight = camera.viewportHeight - 64f;
 			camera.viewportWidth = camera.viewportWidth - 64f;
-		}
-		else{
+		} else {
 			camera.viewportHeight = camera.viewportHeight + 64f;
 			camera.viewportWidth = camera.viewportWidth + 64f;
 		}
 		return false;
 	}
-	
+
 }

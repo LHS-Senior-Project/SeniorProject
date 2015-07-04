@@ -11,3 +11,4 @@ public class DesktopLauncher {
 		new LwjglApplication(new SP2(), config);
 	}
 }
+	
